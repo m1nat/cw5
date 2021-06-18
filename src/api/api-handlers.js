@@ -6,8 +6,8 @@ export const initApi = () => {
 };
 
 const header = {
-        "Content-Type": "application/json",
-      },
+  "Content-Type": "application/json",
+};
 
 // export const createUser = ({ username, age, creationDate }) => {
 //   fetch(`${databaseURL}/users.json`, {
@@ -83,20 +83,30 @@ const header = {
 //     .then((result) => console.log(result));
 // };
 
-export const createPost = post => {
-  const {userId, name, email, date, title, content} = post;
-  fetch(
-    `${databaseURL}/posts.json`, {
-      method: 'POST',
-      header,
-      body: JSON.stringify({
-        userId, 
-        name, 
-        email, 
-        date, 
-        title, 
-        content
-      })
-    }
-  )
-}
+export const createPost = (post) => {
+  const { userId, name, email, date, title, content } = post;
+  fetch(`${databaseURL}/posts.json`, {
+    method: "POST",
+    header,
+    body: JSON.stringify({
+      userId,
+      name,
+      email,
+      date,
+      title,
+      content,
+    }),
+  });
+};
+
+export const getPosts = () => {
+  return fetch(`${databaseURL}/posts.json`, { header })
+  .then( response => response.json() )
+  .then( result => {
+    const transformedPostsArray = Object.keys(result).map( key => ({
+      ...result[key],
+      id: key
+    }))
+    return transformedPostsArray
+  })
+};
