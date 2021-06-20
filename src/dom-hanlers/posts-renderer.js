@@ -1,4 +1,3 @@
-
 import moment from "moment";
 import { getPosts } from "../api/api-handlers";
 
@@ -25,8 +24,7 @@ export const renderPosts = () => {
         content.innerHTML = item.content;
         userName.innerHTML = `${item.name}, `;
         postDate.innerHTML = moment(item.date).format('MMM Do YY');
-
-
+        
         post.append(title,content, userName, postDate);
         postsContainer.append(post)
       })
