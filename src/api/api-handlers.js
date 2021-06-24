@@ -1,5 +1,9 @@
 import firebase from "firebase/app";
-import { FIREBASE_CONFIG, databaseURL } from "./api-config.js";
+import axios from "axios";
+
+import { FIREBASE_CONFIG, databaseURL, authURL } from "./api-config.js";
+
+require('firebase/auth');
 
 export const initApi = () => {
   firebase.initializeApp(FIREBASE_CONFIG);
@@ -8,7 +12,6 @@ export const initApi = () => {
 const header = {
   "Content-Type": "application/json",
 };
-
 
 export const createPost = (post) => {
   const { userId, name, email, date, title, content } = post;
@@ -37,3 +40,15 @@ export const getPosts = () => {
     return transformedPostsArray
   })
 };
+
+export const signIn = () => {
+  return axios.post(authURL, {
+    email: 'test@mail.com',
+    password: '1111111',
+    returnSecureToken: true
+  })
+  .then( response => response )
+  .catch(err => console.log(err));
+}
+
+initApi();

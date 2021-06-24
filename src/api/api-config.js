@@ -9,3 +9,5 @@ export const FIREBASE_CONFIG = {
 };
 
 export const databaseURL = 'https://project-2a258-default-rtdb.firebaseio.com';
+
+export const authURL = `https://identitytoolkit.googleapis.com/v1/accounts:signInWithPassword?key=${FIREBASE_CONFIG.apiKey}`
