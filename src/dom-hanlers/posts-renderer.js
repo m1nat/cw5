@@ -56,4 +56,4 @@ export const postFormHandler = () => {
     title_input.value = null;
     post_content.value = null
   });
-}
+};

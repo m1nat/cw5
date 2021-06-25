@@ -1,8 +1,10 @@
 .sign-in {
-  
-  &__form {
-    width: 80%;
-    margin: 50px, auto;
-  }
+  display: flex;
+  flex-direction: column;
+  align-items: center;
 
+  &__form {
+    width: 60%;
+    margin: 50px auto;
+  }
 }

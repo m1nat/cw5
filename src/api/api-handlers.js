@@ -37,18 +37,25 @@ export const getPosts = () => {
       ...result[key],
       id: key
     }))
-    return transformedPostsArray
-  })
+    return transformedPostsArray;
+  });
 };
 
-export const signIn = () => {
+export const signIn = (email, password) => {
   return axios.post(authURL, {
-    email: 'test@mail.com',
-    password: '1111111',
+    email,
+    password,
     returnSecureToken: true
   })
   .then( response => response )
   .catch(err => console.log(err));
+};
+
+export const signUp = async (email, password) => {
+  return firebase
+  .auth()
+  .createUserWithEmailAndPassword(email, password)
+  .then(response => response)
 }
 
 initApi();
