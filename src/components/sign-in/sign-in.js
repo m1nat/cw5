@@ -2,7 +2,10 @@ import { signIn } from "../../api/api-handlers.js";
 import { setToken } from "../../shared/ls-service.js";
 import { routs } from "../../shared/constants/routs.js";
 import { passwordLengthValidator } from "../../shared/validators.js";
-import { showFormErrorMessege, hideFormErrorMessege } from "../../shared/error-handlers.js";
+import {
+  showFormErrorMessege,
+  hideFormErrorMessege,
+} from "../../shared/error-handlers.js";
 
 export const signInHandler = () => {
   const signInForm = document.querySelector(".sign-in__form");
@@ -16,7 +19,7 @@ export const signInHandler = () => {
       isValid: true,
     },
     password: {
-      isValid: true,
+      isValid: false,
     },
   };
 
@@ -38,23 +41,28 @@ export const signInHandler = () => {
   });
   passwordInput.oninput = () => {
     if (passwordLengthValidator(passwordInput.value)) {
+      hideFormErrorMessege();
       formFields.password.isValid = true
-      hideFormErrorMessege()
     } else {
-      // signInBtn.setAttribute("disabled", true);
+      showFormErrorMessege();
+      formFields.password.isValid = false
+
     }
-    checkFormValid()
+    checkFormValid();
   };
 
   passwordInput.onblur = () => {
-    !passwordLengthValidator(passwordInput.value) ? showFormErrorMessege() : hideFormErrorMessege
-
+    !passwordLengthValidator(passwordInput.value)
+      ? showFormErrorMessege()
+      : hideFormErrorMessege();
   };
 
   const checkFormValid = () => {
-    console.log('check');
-    const isFormValid = Object.values(formFields).every( value => value.isValid );
-    isFormValid ?  signInBtn.removeAttribute("disabled") : signInBtn.setAttribute("disabled", true);
+    const isFormValid = Object.values(formFields).every(
+      (value) => value.isValid
+    );
+    isFormValid
+      ? signInBtn.removeAttribute("disabled")
+      : signInBtn.setAttribute("disabled", true);
   };
-
 };
