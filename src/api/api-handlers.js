@@ -2,6 +2,7 @@ import firebase from "firebase/app";
 import axios from "axios";
 
 import { FIREBASE_CONFIG, databaseURL, authURL } from "./api-config.js";
+import { showErrorNotification } from '../shared/error-handlers.js'
 
 require('firebase/auth');
 
@@ -48,7 +49,9 @@ export const signIn = (email, password) => {
     returnSecureToken: true
   })
   .then( response => response )
-  .catch(err => console.log(err));
+  .catch(err => {
+    showErrorNotification(err)
+  });
 };
 
 export const signUp = async (email, password) => {

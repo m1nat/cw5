@@ -1,31 +1,33 @@
-import { signIn } from "../../api/api-handlers.js";
-import { setToken } from "../../shared/ls-service.js";
-import { routs } from "../../shared/constants/routs.js";
-import { passwordLengthValidator } from "../../shared/validators.js";
+import { signIn } from '../../api/api-handlers.js';
+import { setToken } from '../../shared/ls-service.js';
+import { routs } from '../../shared/constants/routs.js';
+import { emailLengthValidator, passwordLengthValidator } from '../../shared/validators.js';
 import {
   showFormErrorMessege,
   hideFormErrorMessege,
-} from "../../shared/error-handlers.js";
+  showFormErrorMessegeEmail,
+  hideFormErrorMessegeEmail,
+} from '../../shared/error-handlers.js';
 
 export const signInHandler = () => {
-  const signInForm = document.querySelector(".sign-in__form");
-  const signInBtn = document.getElementById("signInBtn");
-  const passwordInput = document.getElementById("password");
-  const emailInput = document.getElementById("email");
-  const inputError = document.querySelector(".input-error");
+  const signInForm = document.querySelector('.sign-in__form');
+  const signInBtn = document.getElementById('signInBtn');
+  const passwordInput = document.getElementById('password');
+  const emailInput = document.getElementById('email');
+  const inputError = document.querySelector('.input-error');
 
   const formFields = {
     email: {
-      isValid: true,
+      isValid: false,
     },
     password: {
       isValid: false,
     },
   };
 
-  signInBtn.setAttribute("disabled", true);
+  signInBtn.setAttribute('disabled', true);
 
-  signInForm.addEventListener("submit", (event) => {
+  signInForm.addEventListener('submit', (event) => {
     event.preventDefault();
 
     const email = emailInput.value;
@@ -42,19 +44,17 @@ export const signInHandler = () => {
   passwordInput.oninput = () => {
     if (passwordLengthValidator(passwordInput.value)) {
       hideFormErrorMessege();
-      formFields.password.isValid = true
+      formFields.password.isValid = true;
+      passwordInput.classList.remove('invalid')
     } else {
-      showFormErrorMessege();
-      formFields.password.isValid = false
-
+      formFields.password.isValid = false;
+      passwordInput.classList.add('invalid')
     }
     checkFormValid();
   };
 
   passwordInput.onblur = () => {
-    !passwordLengthValidator(passwordInput.value)
-      ? showFormErrorMessege()
-      : hideFormErrorMessege();
+    !passwordLengthValidator(passwordInput.value)? showFormErrorMessege() : hideFormErrorMessege();
   };
 
   const checkFormValid = () => {
@@ -62,7 +62,24 @@ export const signInHandler = () => {
       (value) => value.isValid
     );
     isFormValid
-      ? signInBtn.removeAttribute("disabled")
-      : signInBtn.setAttribute("disabled", true);
+      ? signInBtn.removeAttribute('disabled')
+      : signInBtn.setAttribute('disabled', true);
   };
+
+  emailInput.oninput = () => {
+    if (emailLengthValidator(emailInput.value)) {
+      hideFormErrorMessegeEmail();
+      formFields.email.isValid = true;
+      emailInput.classList.remove('invalid')
+    } else {
+      formFields.email.isValid = false;
+      emailInput.classList.add('invalid')
+    }
+    checkFormValid();
+  };
+
+    emailInput.onblur = () => {
+    !emailLengthValidator(emailInput.value)? showFormErrorMessegeEmail() : hideFormErrorMessegeEmail();
+  };
+
 };
